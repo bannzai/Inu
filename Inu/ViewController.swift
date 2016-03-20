@@ -8,75 +8,64 @@
 
 import UIKit
 
+class View: UIView, OnceType {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = UIColor.orangeColor()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        print("View#layoutSubViews")
+        once.call() {
+            let button = UIButton(frame: CGRectMake(10, 10, 100, 50))
+            button.backgroundColor = UIColor.yellowColor()
+            button.addTarget(self, action: "tapped:", forControlEvents: .TouchUpInside)
+            button.titleLabel?.text = "Button"
+            self.addSubview(button)
+        }
+    }
+    
+    func tapped(button: UIButton) {
+        button.hidden = true
+        forceLayout()
+    }
+    
+    func forceLayout() {
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+    }
+    
+}
+
 class ViewController: UIViewController, OnceType {
     
-    var number: Int = 0
-    func increment() -> Int {
-        number = number + 1
-        return number
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        once.call() {
-            print("\(increment()): Calling")
-        }
-        once.call() {
-            fatalError("Not call")
-        }
-        once.call("key") {
-            print("\(increment()): Calling")
-        }
-        once.call("key") {
-            fatalError("Not call")
-        }
-        
-        once.clearAll()
-        once.call() {
-            print("\(increment()): Calling")
-        }
-        once.call() {
-            fatalError("Not call")
-        }
-        
-        once.call("key") {
-            print("\(increment()): Calling")
-        }
-        once.call("key") {
-            fatalError("Not call")
-        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        once.call("key") {
-            fatalError("Not call")
+        addView()
+    }
+    
+    private func addView() {
+        once.call() {
+            print("ViewController#addView in once.call: closure")
+            self.view.addSubview(View(frame: CGRectMake(200, 200, 200, 200)))
         }
         once.call() {
-            print("\(increment()): Calling")
+            fatalError("Not Call")
         }
-        once.call() {
-            fatalError("Not call")
-        }
+    }
+    
+    @IBAction func nextTapped(sender: AnyObject) {
         
-        printWithIterator()
-        printWithIterator()
-        printOnce()
-    }
-    
-    private func printOnce() {
-        for _ in 1...10 {
-            once.call() {
-                print("Print once")
-            }
-        }
-    }
-    
-    private func printWithIterator() {
-        for i in 1...10 {
-            once.call("\(i)") {
-                print("Print iterator: \(i)")
-            }
-        }
     }
 }
 
