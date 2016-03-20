@@ -52,6 +52,37 @@ class ViewController: UIViewController, OnceType {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         addView()
+        
+        anyFunction()
+        callingWithKey()
+    }
+    
+    func anyFunction() {
+        once.call() {
+            print("This statement is call once while self live")
+        }
+        once.call() {
+            fatalError("Not call this statemenet")
+        }
+    }
+  
+    func callingWithKey() {
+        once.call("key") {
+            print("Calling")
+        }
+        once.call("key") {
+            fatalError("Not Call")
+        }
+        once.call() {
+            print("Calling")
+        }
+        once.clear(withKey: "key")
+        once.call("key") {
+            print("Calling")
+        }
+        once.call() {
+            fatalError("Not Call")
+        }
     }
     
     private func addView() {
