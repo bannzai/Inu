@@ -23,19 +23,6 @@ class ViewController: UIViewController, OnceType {
         once.call() {
             fatalError("Not call")
         }
-        let number: Int = 1
-        once.call(number) {
-            print("\(increment()): Calling")
-        }
-        once.call(number) {
-            fatalError("Not call")
-        }
-        once.call(self) {
-            print("\(increment()): Calling")
-        }
-        once.call(self) {
-            fatalError("Not call")
-        }
         once.call("key") {
             print("\(increment()): Calling")
         }
@@ -51,18 +38,6 @@ class ViewController: UIViewController, OnceType {
             fatalError("Not call")
         }
         
-        once.call(self) {
-            print("\(increment()): Calling")
-        }
-        once.call(self) {
-            fatalError("Not call")
-        }
-        once.call(self) {
-            print("\(increment()): Calling")
-        }
-        once.call(self) {
-            fatalError("Not call")
-        }
         once.call("key") {
             print("\(increment()): Calling")
         }
@@ -98,7 +73,7 @@ class ViewController: UIViewController, OnceType {
     
     private func printWithIterator() {
         for i in 1...10 {
-            once.call(self, andKey: "\(i)") {
+            once.call("\(i)") {
                 print("Print iterator: \(i)")
             }
         }

@@ -14,20 +14,7 @@ public class Once {
     
     private init() { }
     
-    // MARK: - Publish key
-    private func publishKey(any: AnyObject, key: String) -> String {
-        return key + ": " + publishKey(any)
-    }
-    
-    private func publishKey(any: AnyObject) -> String {
-        return "uuid: " + uuid + " any: " + String(any) + " :end "
-    }
-    
     // MARK: - Call
-    public func call(any: AnyObject, andKey key: String = __FUNCTION__, @noescape _ closure: Void -> Void) {
-        call(publishKey(any, key: key), closure)
-    }
-    
     public func call(withKey: String = __FUNCTION__, @noescape _ closure: Void -> Void) {
         if callStack.contains(withKey) {
             return
@@ -43,14 +30,6 @@ public class Once {
         return beforeRemoveStack
     }
     
-    public func clear(any: AnyObject, andKey key: String) -> [String]? {
-        return clear(withKey: publishKey(any, key: key))
-    }
-    
-    public func clear(with any: AnyObject) -> [String]? {
-        return clear { $0.containsString(publishKey(any)) }
-    }
-    
     public func clear(withKey key: String) -> [String] {
         return clear() { $0 == key }
     }
@@ -59,14 +38,6 @@ public class Once {
         let beforeFilterStack = callStack
         callStack = callStack.filter { !condition($0) }
         return beforeFilterStack
-    }
-    
-    // MARK: Add
-    public func addStack(keys: [String]?) {
-        guard let keys = keys else {
-            return
-        }
-        callStack.appendContentsOf(keys)
     }
 }
 

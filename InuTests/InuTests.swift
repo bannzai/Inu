@@ -35,20 +35,6 @@ class InuTests: XCTestCase, OnceType {
         }
     }
     
-    func testCallWithAny() {
-        once.call(self) { }
-        once.call(self) {
-            XCTFail()
-        }
-    }
-    
-    func testCallWithAnyAndKey() {
-        let key = "key"
-        once.call(self, andKey: key) { }
-        once.call(self, andKey: key) {
-            XCTFail()
-        }
-    }
     
     func testCall_CallWithKey_CallWithAny_CallAnyAndKey() {
         let expect = self.expectationWithDescription(__FUNCTION__)
@@ -60,14 +46,6 @@ class InuTests: XCTestCase, OnceType {
         once.call(key) {
             expect2.fulfill()
         }
-        let expect3 = self.expectationWithDescription(__FUNCTION__)
-        once.call(self) {
-            expect3.fulfill()
-        }
-        let expect4 = self.expectationWithDescription(__FUNCTION__)
-        once.call(self, andKey: key) {
-            expect4.fulfill()
-        }
         
         wait()
     }
@@ -77,8 +55,6 @@ class InuTests: XCTestCase, OnceType {
         
         once.call() { }
         once.call(key) { }
-        once.call(self) { }
-        once.call(self, andKey: key) { }
         
         once.clearAll()
         
@@ -90,15 +66,6 @@ class InuTests: XCTestCase, OnceType {
         once.call(key) {
             expect2.fulfill()
         }
-        let expect3 = self.expectationWithDescription(__FUNCTION__)
-        once.call(self) {
-            expect3.fulfill()
-        }
-        let expect4 = self.expectationWithDescription(__FUNCTION__)
-        once.call(self, andKey: key) {
-            expect4.fulfill()
-        }
-        
         wait()
     }
     
@@ -110,33 +77,6 @@ class InuTests: XCTestCase, OnceType {
         let expect = self.expectationWithDescription(__FUNCTION__)
         
         once.call(key) {
-            expect.fulfill()
-        }
-        
-        wait()
-    }
-    
-    func testCallWithAny_ClearWithAny_CallWithAny() {
-        once.call(self) { }
-        once.clear(with: self)
-        
-        let expect = self.expectationWithDescription(__FUNCTION__)
-        
-        once.call(self) {
-            expect.fulfill()
-        }
-        
-        wait()
-    }
-    
-    func testCallWithAnyAndKey_ClearWithAny_CallWithAnyAndKey() {
-        let key = "key"
-        once.call(self, andKey: key) { }
-        once.clear(with: self)
-        
-        let expect = self.expectationWithDescription(__FUNCTION__)
-        
-        once.call(self, andKey: key) {
             expect.fulfill()
         }
         
@@ -156,14 +96,6 @@ class InuTests: XCTestCase, OnceType {
         }
         
         wait()
-    }
-    
-    func testAddStack() {
-        once.call() { }
-        once.addStack(once.clearAll())
-        once.call() {
-            XCTFail()
-        }
     }
     
     func testPerformanceExample() {
