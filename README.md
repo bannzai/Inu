@@ -28,7 +28,7 @@ func anyFunction() {
 
 If want to call once again. You should call '''clearAll()``` method.
 ```clearAll()``` is clear all cache.  You can same ```call()``` one more time.
-```
+```swift
 func callOneMoreTime() {
     once.clearAll()
     anyFunction() // <-  This statement is call once while self live
@@ -38,7 +38,7 @@ func callOneMoreTime() {
 It's also possible to control ```call()```  with string key.
 And you can use ```clear(withKey: String)``` method.
 
-```
+```swift
 func callingWithKey() {
     once.call("key") {
         print("Calling")
