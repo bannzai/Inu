@@ -26,7 +26,7 @@ func anyFunction() {
 }
 ```
 
-If want to call once again. You should call '''clearAll()``` method.
+If want to call once again. You should call `clearAll()` method.
 ```clearAll()``` is clear all cache.  You can same ```call()``` one more time.
 ```swift
 func callOneMoreTime() {
@@ -62,7 +62,6 @@ func callingWithKey() {
 
 # License
 Inu is released under the MIT license. See LICENSE.txt for details.
-
 
 
 
